@@ -45,7 +45,6 @@
             this.btn4 = new System.Windows.Forms.Button();
             this.btn9 = new System.Windows.Forms.Button();
             this.btn8 = new System.Windows.Forms.Button();
-            this.txtbx1 = new System.Windows.Forms.TextBox();
             this.Keypad = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.richtxtbx = new System.Windows.Forms.RichTextBox();
@@ -228,18 +227,8 @@
             this.btn8.UseVisualStyleBackColor = true;
             this.btn8.Click += new System.EventHandler(this.btn8_Click);
             // 
-            // txtbx1
-            // 
-            this.txtbx1.BackColor = System.Drawing.SystemColors.MenuText;
-            this.txtbx1.ForeColor = System.Drawing.SystemColors.MenuBar;
-            this.txtbx1.Location = new System.Drawing.Point(6, 19);
-            this.txtbx1.Name = "txtbx1";
-            this.txtbx1.Size = new System.Drawing.Size(192, 20);
-            this.txtbx1.TabIndex = 18;
-            // 
             // Keypad
             // 
-            this.Keypad.Controls.Add(this.txtbx1);
             this.Keypad.Controls.Add(this.btn7);
             this.Keypad.Controls.Add(this.btn8);
             this.Keypad.Controls.Add(this.btnC);
@@ -252,9 +241,9 @@
             this.Keypad.Controls.Add(this.btn6);
             this.Keypad.Controls.Add(this.btn2);
             this.Keypad.Controls.Add(this.btn1);
-            this.Keypad.Location = new System.Drawing.Point(763, 150);
+            this.Keypad.Location = new System.Drawing.Point(763, 164);
             this.Keypad.Name = "Keypad";
-            this.Keypad.Size = new System.Drawing.Size(208, 315);
+            this.Keypad.Size = new System.Drawing.Size(208, 301);
             this.Keypad.TabIndex = 19;
             this.Keypad.TabStop = false;
             this.Keypad.Text = "Keypad";
@@ -346,7 +335,6 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.btn7_Load);
             this.Keypad.ResumeLayout(false);
-            this.Keypad.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -373,7 +361,6 @@
         private System.Windows.Forms.Button btn4;
         private System.Windows.Forms.Button btn9;
         private System.Windows.Forms.Button btn8;
-        private System.Windows.Forms.TextBox txtbx1;
         private System.Windows.Forms.GroupBox Keypad;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RichTextBox richtxtbx;
