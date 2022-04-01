@@ -73,12 +73,12 @@ namespace MoneyMarketplace
 
         public void ckbalance()
         {
-            MessageBox.Show("Balance is:" + balance);
+            MessageBox.Show("Balance is:" + balance+ "Eu");
         }
 
         public void printlstbalance()
         {
-            MessageBox.Show("Previous balance was"+ lasttrans);
+            MessageBox.Show("Previous balance was :"+ lasttrans + "Eu");
         }
     }
 }

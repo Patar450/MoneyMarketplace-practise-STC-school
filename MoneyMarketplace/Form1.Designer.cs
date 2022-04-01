@@ -358,7 +358,7 @@
             this.btncard.Name = "btncard";
             this.btncard.Size = new System.Drawing.Size(221, 35);
             this.btncard.TabIndex = 26;
-            this.btncard.Text = "Enter Card";
+            this.btncard.Text = "*Enter Card*";
             this.btncard.UseVisualStyleBackColor = true;
             this.btncard.Click += new System.EventHandler(this.btncard_Click);
             // 

@@ -10,15 +10,7 @@ using System.Windows.Forms;
 
 namespace MoneyMarketplace
 {
-    /*[13:16] Andrew Caruana
-    sure - create some methods within the class - done
-
-    [13:16] Andrew Caruana
-    also you can have last transaction as part of your class
-
-    [13:17] Andrew Caruana
-    because you want to keep the last transaction in that object package
-    */
+    
     public partial class Form_load : Form
     {
         private int pinnum;
@@ -37,6 +29,7 @@ namespace MoneyMarketplace
         Account acc2;
         Account acc3;
         Account acc4;
+        Account acc5;
 
 
         private void Menuorganizer()
@@ -140,7 +133,6 @@ namespace MoneyMarketplace
         private void Lenghtchecker(int pinnum)
         {
             int counter = 0;
-            MessageBox.Show(pinnumstore);
             if (pinnum == -1)
             {
                 pincounter = 0;
@@ -159,21 +151,25 @@ namespace MoneyMarketplace
             {
                 for (curraccount = 0; curraccount < Profile.Count(); curraccount++)
                 {
+                    //algorithm checker
+                    //MessageBox.Show("Curr account"+curraccount + "Profile count" + Convert.ToString(Profile.Count()) +"Pinnum store"+ pinnumstore + "Pinncounter:"+pincounter);
+                    
                     if (Profile.ElementAt(curraccount).Pin == pinnumstore)
                     {
                         disablekeypad();
                         loggedin();
                         menu = 1;
+                        profile = true;
                         Menuorganizer();
-                        counter = 0;
+                        //counter = 0;
                         break;
                     }
-                    else if (counter > Profile.Count())
+                    else if (curraccount == Profile.Count() -1)
                     {
                         MessageBox.Show("Incorrect Pin please try again.");
                         pinnum = -1;
                         Lenghtchecker(pinnum);
-                        break ;
+                        break;
                     }
                     else
                     {
@@ -347,6 +343,7 @@ namespace MoneyMarketplace
             Profile.Add(acc2 = new Account(2, "Mary", "7812", 2100, 0));
             Profile.Add(acc3 = new Account(3, "Phil", "4371", 21867, 0));
             Profile.Add(acc4 = new Account(4, "Hayley", "3214", 2179, 450000));
+            Profile.Add(acc5 = new Account(0, "defaultuser", "9999", 0, 0));
 
             //explained in the methods section
             menu = 5;
