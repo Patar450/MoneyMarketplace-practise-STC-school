@@ -14,7 +14,6 @@ namespace MoneyMarketplace
     public partial class Form_load : Form
     {
         private int pinnum;
-        private int numstore;
         private int curraccount = 0;
         private string pinnumstore = null;
         private int pincounter;
@@ -22,6 +21,7 @@ namespace MoneyMarketplace
         private int menu = 0;
         private string amounth;
         private int amountw;
+        private int attempt;
 
         List<Account> Profile = new List<Account>();
 
@@ -45,7 +45,7 @@ namespace MoneyMarketplace
             switch (menu)
             {
                 case 0:
-                    richtxtbx.Text = "\n \n Money Market Place \n \n \n \n Enter Your Pin Number to login.\n Pin:";
+                    richtxtbx.Text = "\n \n Money Market Place \n \n \n \n Enter Your Pin Number to login.\n";
                     break;
                 case 1:
                     richtxtbx.Text = "\n \n Money Market Place \n \n \n" + Profile.ElementAt(curraccount).Name + ",\n What would you like to do?";
@@ -106,7 +106,7 @@ namespace MoneyMarketplace
             btn8.Enabled = true;
             btn9.Enabled = true;
             btn0.Enabled = true;
-            btnA.Enabled = true;
+            btnA.Enabled = false;
             btnC.Enabled = true;
         }
 
@@ -129,10 +129,11 @@ namespace MoneyMarketplace
             btnConfirm.Enabled = true;
             btndeny.Enabled = true;
         }
-        // big algorithm that too my innocence. (removed a lot of clutter by adding more methods linked to it)
+        // big algorithm that too my innocence. (removed a lot of clutter by adding more methods linked to it).
         private void Lenghtchecker(int pinnum)
         {
             int counter = 0;
+            //resets all counters
             if (pinnum == -1)
             {
                 pincounter = 0;
@@ -141,19 +142,23 @@ namespace MoneyMarketplace
                 menu = 0;
                 Menuorganizer();
             }
+            //whilst the pin is being entered the user would be able to see his input in *.
             else if (pincounter < 4)
             {
                 pinnumstore += pinnum;
-                richtxtbx.AppendText(Convert.ToString(pinnum));
+                richtxtbx.AppendText(Convert.ToString("*"));
                 pincounter = pinnumstore.Length;
             }
+            //once the Pin is 4 text long the following if statement gets executed. 
             else if (pinnumstore.Length == 4)
             {
+                //a loop to check all acocunts saved on the class.
                 for (curraccount = 0; curraccount < Profile.Count(); curraccount++)
                 {
                     //algorithm checker
                     //MessageBox.Show("Curr account"+curraccount + "Profile count" + Convert.ToString(Profile.Count()) +"Pinnum store"+ pinnumstore + "Pinncounter:"+pincounter);
-                    
+
+                    //if pin is corrcet
                     if (Profile.ElementAt(curraccount).Pin == pinnumstore)
                     {
                         disablekeypad();
@@ -161,19 +166,23 @@ namespace MoneyMarketplace
                         menu = 1;
                         profile = true;
                         Menuorganizer();
-                        //counter = 0;
                         break;
                     }
+                    //IF Pin is incorrect
                     else if (curraccount == Profile.Count() -1)
                     {
+                        //attempts up to 3 times before closing the program, for suspicion of stolen card.
+                        attempt ++;
+
+                        if (attempt == 3)
+                        {
+                            MessageBox.Show("PIN entered incorrectly, Card held. Please, speak to a staff in the branch for further assistance.");
+                            this.Close();
+                        }    
                         MessageBox.Show("Incorrect Pin please try again.");
                         pinnum = -1;
                         Lenghtchecker(pinnum);
                         break;
-                    }
-                    else
-                    {
-                        counter = Profile.Count() * Profile.Count();
                     }
                 }
                 
@@ -182,6 +191,7 @@ namespace MoneyMarketplace
         //storing the amount that will be deducting the current balance (if confirmed)
         private void calc(int pinnum)
         {
+
             amounth += pinnum;
             richtxtbx.AppendText(Convert.ToString(pinnum));
         }
@@ -191,7 +201,7 @@ namespace MoneyMarketplace
         {
             InitializeComponent();
         }
-        //button linked with 2 methods (1 to check PIN, the other for the withdrawal function to use)
+        //Keypad button controller (1 to check PIN, the other for the withdrawal function to use)
         private void btn1_Click(object sender, EventArgs e)
         {
             pinnum = 1;
@@ -343,7 +353,7 @@ namespace MoneyMarketplace
             Profile.Add(acc2 = new Account(2, "Mary", "7812", 2100, 0));
             Profile.Add(acc3 = new Account(3, "Phil", "4371", 21867, 0));
             Profile.Add(acc4 = new Account(4, "Hayley", "3214", 2179, 450000));
-            Profile.Add(acc5 = new Account(0, "defaultuser", "9999", 0, 0));
+            Profile.Add(acc5 = new Account(0, "defaultuser", "0000", 0, 0));
 
             //explained in the methods section
             menu = 5;
@@ -396,6 +406,7 @@ namespace MoneyMarketplace
         {
             amountw = Convert.ToInt16(amounth);
 
+            
             if (Profile.ElementAt(curraccount).Balance > amountw)
             {
                 menu = 4;

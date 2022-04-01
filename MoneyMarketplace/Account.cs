@@ -9,13 +9,14 @@ namespace MoneyMarketplace
 {
     internal class Account
     {
+        //Attributes are private --> starting with a small letter.//
         private int id;
         private string name;
         private string pin;
         private int balance;
         private int lasttrans;
 
-
+        //Getters and Setters --> starting with a Capital Letter.//
         public int Id
         {
             get { return id; }
@@ -46,6 +47,7 @@ namespace MoneyMarketplace
             set { lasttrans = value; }
         }
 
+        //---Contructors---//
         public Account(int idn, string nam, string pim, int acc, int lt)
         {
             id = idn;
@@ -54,6 +56,8 @@ namespace MoneyMarketplace
             balance = acc;
             lasttrans = lt;
         }
+
+        //--Registering default values.--//
         public Account()
         {
             id = 0;
@@ -62,7 +66,7 @@ namespace MoneyMarketplace
             balance = 0;
             lasttrans = 0;
         }
-
+        //-- Methods in Class--//
         public void adjustbalance(int withdrawal)
         {
             
