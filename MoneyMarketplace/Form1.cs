@@ -23,13 +23,13 @@ namespace MoneyMarketplace
         private int amountw;
         private int attempt;
 
-        List<Account> Profile = new List<Account>();
+        List<BasicAccount> Profile = new List<BasicAccount>();
 
-        Account acc1;
-        Account acc2;
-        Account acc3;
-        Account acc4;
-        Account acc5;
+        BasicAccount acc1;
+        BasicAccount acc2;
+        BasicAccount acc3;
+        BasicAccount acc4;
+        BasicAccount acc5;
 
 
         private void Menuorganizer()
@@ -349,11 +349,11 @@ namespace MoneyMarketplace
         private void btn7_Load(object sender, EventArgs e)
         {
             // Adding pre-made accounts
-            Profile.Add(acc1 = new Account(1, "James", "4321", 1500, 0));
-            Profile.Add(acc2 = new Account(2, "Mary", "7812", 2100, 0));
-            Profile.Add(acc3 = new Account(3, "Phil", "4371", 21867, 0));
-            Profile.Add(acc4 = new Account(4, "Hayley", "3214", 2179, 450000));
-            Profile.Add(acc5 = new Account(0, "defaultuser", "0000", 0, 0));
+            Profile.Add(acc1 = new BasicAccount(1, "James", "4321", 1500, 0));
+            Profile.Add(acc2 = new BasicAccount(2, "Mary", "7812", 2100, 0));
+            Profile.Add(acc3 = new BasicAccount(3, "Phil", "4371", 21867, 0));
+            Profile.Add(acc4 = new BasicAccount(4, "Hayley", "3214", 2179, 450000));
+            Profile.Add(acc5 = new BasicAccount(0, "defaultuser", "0000", 0, 0));
 
             //explained in the methods section
             menu = 5;
