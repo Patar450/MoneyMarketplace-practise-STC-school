@@ -19,9 +19,11 @@ namespace MoneyMarketplace
         private int pincounter;
         private bool profile = false;
         private int menu = 0;
-        private string amounth;
+        private string amounth = " ";
         private int amountw;
         private int attempt;
+        private string bankaccount;
+
 
         List<BasicAccount> Profile = new List<BasicAccount>();
 
@@ -31,7 +33,31 @@ namespace MoneyMarketplace
         BasicAccount acc4;
         BasicAccount acc5;
 
+        private void AddAccount(int tempid, string tempname, string temppin, int tempbalance, string tempaccname, string tempdate)
+        {
+            BasicAccount newaccs;
 
+            if (tempaccname == "Basic Account")
+            {
+                newaccs = new BasicAccount();
+            }
+            else if (tempaccname == "Bank Account")
+            {
+                newaccs = new BankAccount();
+            }
+            else if (tempaccname == "Advance")
+            {
+                newaccs = new Advance();
+            }
+            else if(tempaccname == "Premier")
+            {
+                newaccs = new Premier();
+            }
+
+            newaccs.Id = tempid;
+            newaccs.Clientname = tempname;
+
+        }
         private void Menuorganizer()
         {
             //editing the richtextbox;
@@ -48,10 +74,10 @@ namespace MoneyMarketplace
                     richtxtbx.Text = "\n \n Money Market Place \n \n \n \n Enter Your Pin Number to login.\n";
                     break;
                 case 1:
-                    richtxtbx.Text = "\n \n Money Market Place \n \n \n" + Profile.ElementAt(curraccount).Name + ",\n What would you like to do?";
+                    richtxtbx.Text = "\n \n Money Market Place \n \n \n" + Profile.ElementAt(curraccount).Clientname + ",\n What would you like to do from your "+ Profile.ElementAt(curraccount).Bankname + "?";
                     break;
                 case 2:
-                    richtxtbx.Text = "\n \n Money Market Place \n \n \n" + Profile.ElementAt(curraccount).Name + ",\n How much do you want to withdraw? \n";
+                    richtxtbx.Text = "\n \n Money Market Place \n \n \n" + Profile.ElementAt(curraccount).Clientname + ",\n How much do you want to withdraw? \n";
                     break;
                 case 3:
                     richtxtbx.Text = ("\n \n Money Market Place \n \n \n \nYour balance is: " + Profile.ElementAt(curraccount).Balance + "Eur");
@@ -73,6 +99,7 @@ namespace MoneyMarketplace
             btnConfirm.Enabled = false;
             btnwithrec.Enabled = false;
             btndeny.Enabled = false;
+            btnMenu.Enabled = false;
         }
 
         //disabling the whole keypad (since it is not needed.)
@@ -116,6 +143,7 @@ namespace MoneyMarketplace
             btnwithdraw.Enabled = true;
             btnbalance.Enabled = true;
             btnwithrec.Enabled = true;
+            btnMenu.Enabled = true;
             btnConfirm.Enabled = false;
             btndeny.Enabled = false;
             btncard.Enabled = false;
@@ -126,6 +154,7 @@ namespace MoneyMarketplace
             btnwithdraw.Enabled = false;
             btnbalance.Enabled = false;
             btnwithrec.Enabled = false;
+            btnMenu.Enabled= false;
             btnConfirm.Enabled = true;
             btndeny.Enabled = true;
         }
@@ -191,9 +220,18 @@ namespace MoneyMarketplace
         //storing the amount that will be deducting the current balance (if confirmed)
         private void calc(int pinnum)
         {
-
-            amounth += pinnum;
-            richtxtbx.AppendText(Convert.ToString(pinnum));
+            
+            if (amounth.Length < 6)
+            {
+                amounth += pinnum;
+                richtxtbx.AppendText(Convert.ToString(pinnum));
+            }
+            else
+            {
+                MessageBox.Show("Reach Maximum Input.");
+                disablekeypad();
+            }
+            
         }
 
         
@@ -348,13 +386,22 @@ namespace MoneyMarketplace
 
         private void btn7_Load(object sender, EventArgs e)
         {
+            
             // Adding pre-made accounts
-            Profile.Add(acc1 = new BasicAccount(1, "James", "4321", 1500, 0));
-            Profile.Add(acc2 = new BasicAccount(2, "Mary", "7812", 2100, 0));
-            Profile.Add(acc3 = new BasicAccount(3, "Phil", "4371", 21867, 0));
-            Profile.Add(acc4 = new BasicAccount(4, "Hayley", "3214", 2179, 450000));
-            Profile.Add(acc5 = new BasicAccount(0, "defaultuser", "0000", 0, 0));
-
+            Profile.Add(acc1 = new BasicAccount(1, "Basic Account", "4321", 1500, 0, "James", "07 March 2019"));
+            Profile.Add(acc2 = new BasicAccount(2, "Basic Account", "7812", 50000, 0, "Mary", "10 November 2009"));
+            Profile.Add(acc3 = new BasicAccount(3, "Basic Account", "4371", 21867, 0, "Phil", "09 January 2002"));
+            Profile.Add(acc4 = new BasicAccount(4, "Basic Account", "3214", 2179, 450, "Hayley", "07 June 1994"));
+            Profile.Add(acc5 = new BasicAccount(0, "Basic Account", "0000", 0, 0, "defaultuser", DateTime.Today.ToString()));
+            int tempid = 0;
+            tempid = Register.Global.Id;
+            string tempname = Register.Global.name;
+            string temppin = Register.Global.pin;
+            int tempbalance = Register.Global.balance;
+            string tempaccname = Register.Global.accname;
+            string tempdate = Register.Global.datecreated;
+            
+            Register.Global.Id = Profile.Count();
             //explained in the methods section
             menu = 5;
             Menuorganizer();
@@ -404,23 +451,17 @@ namespace MoneyMarketplace
         //checks if the amount entered is less than the balance available, if it is it does the required function.
         private void btnConfirm_Click(object sender, EventArgs e)
         {
+            
             amountw = Convert.ToInt16(amounth);
 
-            
-            if (Profile.ElementAt(curraccount).Balance > amountw)
-            {
-                menu = 4;
-                int withdrawal = amountw;
-                Profile.ElementAt(curraccount).adjustbalance(withdrawal);
-                Menuorganizer();
-                loggedin();
-            }
-            else
-            {
-                MessageBox.Show("That amount exeeds available balance, please choose a lesser amount.");
-                richtxtbx.Clear();
-            }
-            
+            menu = 4;
+            int withdrawal = amountw;
+            richtxtbx.Clear();
+            Profile.ElementAt(curraccount).adjustbalance(withdrawal);
+            Menuorganizer();
+            loggedin();
+
+
         }
         //resets the program while keeping the account logged in.
         private void btndeny_Click(object sender, EventArgs e)
@@ -441,6 +482,19 @@ namespace MoneyMarketplace
             enablekeypad();
             menu = 0;
             Menuorganizer();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            menu = 1;
+            Menuorganizer();
+            disablekeypad();
+            loggedin();
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
