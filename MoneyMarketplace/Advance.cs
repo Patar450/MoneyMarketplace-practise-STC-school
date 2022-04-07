@@ -27,6 +27,12 @@ namespace MoneyMarketplace
             discounts = false;
         }
 
+        public override int limitOverdraft(int overdraft)
+        {
+            overdraft = -1000;
+            return overdraft;
+        }
+
         public override void ckbalance()
         {
             if (Balance < 14999)

@@ -25,7 +25,11 @@ namespace MoneyMarketplace
         {
             creditcard = false;
         }
-
+        public override int limitOverdraft(int overdraft)
+        {
+            overdraft = -2000;
+            return overdraft;
+        }
         public override void ckbalance()
         {
             if (Balance >= 50000 && Bankname == "Bank Account" && Bankname == "Advance" )

@@ -26,7 +26,13 @@ namespace MoneyMarketplace
         //--Registering default values.--//
         public BankAccount()
         {
-            overdraft = -100;
+            overdraft = 0;
+        }
+
+        public virtual int limitOverdraft(int overdraft)
+        {
+            overdraft = 500;
+            return overdraft;
         }
 
         public override void adjustbalance(int withdrawal)

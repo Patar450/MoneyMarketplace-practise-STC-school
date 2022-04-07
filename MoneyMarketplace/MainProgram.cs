@@ -35,27 +35,32 @@ namespace MoneyMarketplace
 
         private void AddAccount(int tempid, string tempname, string temppin, int tempbalance, string tempaccname, string tempdate)
         {
-            BasicAccount newaccs;
+            BasicAccount acc6;
 
             if (tempaccname == "Basic Account")
             {
-                newaccs = new BasicAccount();
+                 acc6 = new BasicAccount();
             }
             else if (tempaccname == "Bank Account")
             {
-                newaccs = new BankAccount();
+                 acc6 = new BankAccount();
             }
             else if (tempaccname == "Advance")
             {
-                newaccs = new Advance();
+                 acc6 = new Advance();
             }
-            else if(tempaccname == "Premier")
+            else if (tempaccname == "Premier")
             {
-                newaccs = new Premier();
+                 acc6 = new Premier();
             }
-
-            newaccs.Id = tempid;
-            newaccs.Clientname = tempname;
+            
+            
+            acc6.Id = tempid;
+            acc6.Clientname = tempname;
+            acc6.Balance = tempbalance;
+            acc6.Bankname = tempaccname;
+            acc6.Datecreated = tempdate;
+            Profile.Add(acc6);
 
         }
         private void Menuorganizer()
@@ -393,14 +398,16 @@ namespace MoneyMarketplace
             Profile.Add(acc3 = new BasicAccount(3, "Basic Account", "4371", 21867, 0, "Phil", "09 January 2002"));
             Profile.Add(acc4 = new BasicAccount(4, "Basic Account", "3214", 2179, 450, "Hayley", "07 June 1994"));
             Profile.Add(acc5 = new BasicAccount(0, "Basic Account", "0000", 0, 0, "defaultuser", DateTime.Today.ToString()));
-            int tempid = 0;
-            tempid = Register.Global.Id;
+            
+            int tempid = Register.Global.Id;
             string tempname = Register.Global.name;
             string temppin = Register.Global.pin;
             int tempbalance = Register.Global.balance;
             string tempaccname = Register.Global.accname;
             string tempdate = Register.Global.datecreated;
-            
+
+            AddAccount(tempid, tempname, temppin, tempbalance, tempaccname, tempdate);
+
             Register.Global.Id = Profile.Count();
             //explained in the methods section
             menu = 5;
