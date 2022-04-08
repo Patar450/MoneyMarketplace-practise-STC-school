@@ -3,130 +3,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+
+using System.Runtime.Serialization;
+
 
 namespace MoneyMarketplace
 {
-    internal class BasicAccount
+    internal class BasicAccount:Account,ISerializable
     {
-        //Attributes are private --> starting with a small letter.//
-
-        //bank ID -- unique to all accounts
-        private int id;
-        //bank name that will determine what type of account it is
-        private string bankname;
-        //unique pin created by the user
-        private string pin;
-        // Balance of the bank account
-        private int balance;
-        //Last transaction from the bank account
-        private int lasttrans;
-        //Bank Holder
-        private string clientname;
-        //Holds bank created.
-        private string datecreated;
-
-        //Getters and Setters --> starting with a Capital Letter.//
-        public int Id
+        //Attributes
+        private int overdraft;
+        //Code the objects to be saved in a specific manner.
+        public override void GetObjectData(SerializationInfo info, StreamingContext Context)
         {
-            get { return id; }
-            set { id = value; }
+            base.GetObjectData(info, Context);
+            info.AddValue("Overdraft", overdraft);
+        }
+        //De-Serializer to read the code and decide it for the application
+        public BasicAccount(SerializationInfo Info, StreamingContext context) : base(Info, context)
+        {
+            overdraft = (int)Info.GetValue("Overdraft", typeof(int));
         }
 
-        public string Bankname
-        {
-            get { return bankname; }
-            set { bankname = value; }
-        }
+        /*___________________
+         * Account          |
+         * _________________|
+         * -id              |
+         * -account holder  |
+         * -pin             |
+         * -balance         |
+         * -lost-transaction|
+         * -----------------|
+         * Gathers/setters  |
+         * Constructors     |
+         * -----------------|
+         * Serialized       |
+         * de-serialized.   |
+         * _________________|
+         * _________________                  
+         * ========Child====|
+         * Basic acconut    |
+         * - overdraft      |
+         * _________________|
+         * =========Child===|
+         * -Extended Accont |
+         * Interest Raste   |
+         * =================|
+         */
+       
 
-        public string Pin
-        {
-            get { return pin; }
-            set { pin = value; }
-        }
-
-        public int Balance
-        {
-            get { return balance; }
-            set { balance = value; }
-        }
-
-        public int LastTrans
-        {
-            get { return lasttrans; }
-            set { lasttrans = value; }
-        }
-
-        public string Datecreated
-        {
-            get { return datecreated; }
-            set { datecreated = value; }
-        }
-
-        public string Clientname
-        {
-            get { return clientname; }
-            set { clientname = value; }
-        }
-
-        //---Contructors---//
-        public BasicAccount(int idn, string banam, string pim, int acc, int lt, string nam, string dateC)
-        {
-            id = idn;
-            bankname = banam;
-            pin = pim;
-            balance = acc;
-            lasttrans = lt;
-            clientname = nam;
-            datecreated = dateC;
-        }
-
-        //--Registering default values.--//
-        public BasicAccount()
-        {
-            id = 0;
-            bankname = null;
-            pin = null;
-            balance = 0;
-            lasttrans = 0;
-            clientname = null;
-            datecreated = null;
-        }
-        //-- Methods in Class--//
-        public virtual void adjustbalance(int withdrawal)
-        {
-            if (balance > withdrawal)
-            {
-                lasttrans = balance;
-                balance = balance - withdrawal;
-            }
-            else
-            {
-                MessageBox.Show("That amount exeeds available balance, please choose a lesser amount.");
-            }
-            
-        }
-
-        public virtual void ckbalance()
-        {
-            
-            if (balance > 50000)
-            {
-                MessageBox.Show("You are  eligible for an Advance account. Converting account to Advance");
-                Bankname = "Advance";
-            }
-            else if (balance >= 15000 && Balance < 50000)
-            {
-                MessageBox.Show("You are eligible for an Premier account. Converting your Profile to Premier Account");
-                Bankname = "Premier";
-            }
-
-            MessageBox.Show("Balance is:" + balance+ "Eu");
-        }
-
-        public void printlstbalance()
-        {
-            MessageBox.Show("Previous balance was :"+ lasttrans + "Eu");
-        }
+        
     }
 }

@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+//1. Create Imports for the Serialiation.
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace MoneyMarketplace
 {
@@ -25,21 +28,24 @@ namespace MoneyMarketplace
         private string bankaccount;
 
 
-        List<BasicAccount> Profile = new List<BasicAccount>();
+        List<Account> Profile = new List<Account>();
 
-        BasicAccount acc1;
-        BasicAccount acc2;
-        BasicAccount acc3;
-        BasicAccount acc4;
-        BasicAccount acc5;
+        Account acc1;
+        Account acc2;
+        Account acc3;
+        Account acc4;
+        Account acc5;
+        Account acc6;
+
+        List<Account> EmptyListOfAccounts = new List<Account>();
 
         private void AddAccount(int tempid, string tempname, string temppin, int tempbalance, string tempaccname, string tempdate)
         {
-            BasicAccount acc6;
+            
 
             if (tempaccname == "Basic Account")
             {
-                 acc6 = new BasicAccount();
+                 acc6 = new Account();
             }
             else if (tempaccname == "Bank Account")
             {
@@ -393,11 +399,11 @@ namespace MoneyMarketplace
         {
             
             // Adding pre-made accounts
-            Profile.Add(acc1 = new BasicAccount(1, "Basic Account", "4321", 1500, 0, "James", "07 March 2019"));
-            Profile.Add(acc2 = new BasicAccount(2, "Basic Account", "7812", 50000, 0, "Mary", "10 November 2009"));
-            Profile.Add(acc3 = new BasicAccount(3, "Basic Account", "4371", 21867, 0, "Phil", "09 January 2002"));
-            Profile.Add(acc4 = new BasicAccount(4, "Basic Account", "3214", 2179, 450, "Hayley", "07 June 1994"));
-            Profile.Add(acc5 = new BasicAccount(0, "Basic Account", "0000", 0, 0, "defaultuser", DateTime.Today.ToString()));
+            Profile.Add(acc1 = new Account(1, "Basic Account", "4321", 1500, 0, "James", "07 March 2019"));
+            Profile.Add(acc2 = new Account(2, "Basic Account", "7812", 50000, 0, "Mary", "10 November 2009"));
+            Profile.Add(acc3 = new Account(3, "Basic Account", "4371", 21867, 0, "Phil", "09 January 2002"));
+            Profile.Add(acc4 = new Account(4, "Basic Account", "3214", 2179, 450, "Hayley", "07 June 1994"));
+            Profile.Add(acc5 = new Account(0, "Basic Account", "0000", 0, 0, "defaultuser", DateTime.Today.ToString()));
             
             int tempid = Register.Global.Id;
             string tempname = Register.Global.name;
@@ -405,8 +411,10 @@ namespace MoneyMarketplace
             int tempbalance = Register.Global.balance;
             string tempaccname = Register.Global.accname;
             string tempdate = Register.Global.datecreated;
-
-            AddAccount(tempid, tempname, temppin, tempbalance, tempaccname, tempdate);
+            if (tempid != 0)
+            {
+                AddAccount(tempid, tempname, temppin, tempbalance, tempaccname, tempdate);
+            }
 
             Register.Global.Id = Profile.Count();
             //explained in the methods section
@@ -502,6 +510,38 @@ namespace MoneyMarketplace
         private void label5_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            //Steps to save serialized content to disk.
+            Stream output;
+            BinaryFormatter binfor = new BinaryFormatter();
+            output = File.Open("ATMData.atm", FileMode.OpenOrCreate);
+
+            binfor.Serialize(output, Profile);
+            if (output.Length != 0)
+            {
+                EmptyListOfAccounts = (List<Account>)binfor.Deserialize(output);
+            }
+        }
+
+        private void btnload_Click(object sender, EventArgs e)
+        {
+            Stream output;
+            BinaryFormatter binfor = new BinaryFormatter();
+            output = File.Open("ATMData.atm", FileMode.Open);
+
+            if(output.Length != 0)
+            {
+                EmptyListOfAccounts = (List<Account>)binfor.Deserialize(output);
+            }
+            output.Close();
+
+            for (int i = 0; i < EmptyListOfAccounts.Count; i++)
+            {
+                MessageBox.Show(EmptyListOfAccounts.ElementAt(i).Clientname);
+            }
         }
     }
 }

@@ -5,9 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+
 namespace MoneyMarketplace
 {
-    internal class BankAccount: BasicAccount
+    
+    internal class BankAccount: Account
     {
         //Attributes are private --> starting with a small letter.//
         private int overdraft;
